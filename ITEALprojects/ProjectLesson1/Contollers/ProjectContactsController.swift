@@ -11,8 +11,8 @@ class ProjectContactsController: UIViewController {
     
     // MARK: - Vairiables
     
-    private let stackViewButtons = UIStackView()
-    private let stackViewTextFieldsForm = UIStackView()
+    private var stackViewButtons = UIStackView()
+    private var stackViewTextFieldsForm = UIStackView()
     private var contacts: [Contact?] = []
     
     // MARK: - UI Components
@@ -48,10 +48,25 @@ class ProjectContactsController: UIViewController {
         return tableView
     }()
     
-    private let contactFirstNameTF = UITextField(placeholder: "First Name", keyBoardType: .default, autocapitalizationType: .sentences, isSecureTextEntry: false)
-    private let contactLastNameTF = UITextField(placeholder: "Last Name", keyBoardType: .default, autocapitalizationType: .sentences, isSecureTextEntry: false)
-    private let contactEmailTF = UITextField(placeholder: "E-mail", keyBoardType: .emailAddress, autocapitalizationType: .sentences, isSecureTextEntry: false)
-    private let contactPasswordTF = UITextField(placeholder: "Password", keyBoardType: .default, autocapitalizationType: .sentences, isSecureTextEntry: true)
+    private let contactFirstNameTF = UITextField(placeholder: "First Name",
+                                                 keyBoardType: .default,
+                                                 autocapitalizationType: .sentences,
+                                                 isSecureTextEntry: false)
+    private let contactLastNameTF = UITextField(placeholder: "Last Name",
+                                                keyBoardType: .default,
+                                                autocapitalizationType: .sentences,
+                                                isSecureTextEntry: false)
+    private let contactEmailTF = UITextField(placeholder: "E-mail",
+                                             keyBoardType: .emailAddress,
+                                             autocapitalizationType: .sentences,
+                                             isSecureTextEntry: false)
+    private let contactPasswordTF = UITextField(placeholder: "Password",
+                                                keyBoardType: .default,
+                                                autocapitalizationType: .sentences,
+                                                isSecureTextEntry: true)
+    
+    private var arrayTextFields: [UITextField] = []
+    
     
     // MARK: - Lifecycle
    
@@ -60,6 +75,11 @@ class ProjectContactsController: UIViewController {
 
         tableViewContacts.dataSource = self
         tableViewContacts.delegate = self
+        
+        arrayTextFields.append(contactFirstNameTF)
+        arrayTextFields.append(contactLastNameTF)
+        arrayTextFields.append(contactEmailTF)
+        arrayTextFields.append(contactPasswordTF)
         
         if contacts.isEmpty{
             delContactButton.isEnabled = false
@@ -80,19 +100,16 @@ class ProjectContactsController: UIViewController {
     private func setupUI() {
         self.view.backgroundColor = .white
         
-        stackViewButtons.addArrangedSubview(addContactButton)
-        stackViewButtons.addArrangedSubview(delContactButton)
-        stackViewButtons.axis = .horizontal
-        stackViewButtons.distribution = .fillEqually
-        stackViewButtons.spacing = 30
+        stackViewButtons = UIStackView(arrangedSubviews: [addContactButton, delContactButton],
+                                       axis: .horizontal,
+                                       spacing: 30)
         
-        stackViewTextFieldsForm.addArrangedSubview(contactFirstNameTF)
-        stackViewTextFieldsForm.addArrangedSubview(contactLastNameTF)
-        stackViewTextFieldsForm.addArrangedSubview(contactEmailTF)
-        stackViewTextFieldsForm.addArrangedSubview(contactPasswordTF)
-        stackViewTextFieldsForm.axis = .vertical
-        stackViewTextFieldsForm.distribution = .fillEqually
-        stackViewTextFieldsForm.spacing = 10
+        stackViewTextFieldsForm = UIStackView(arrangedSubviews: [contactFirstNameTF,
+                                                                 contactLastNameTF,
+                                                                 contactEmailTF,
+                                                                 contactPasswordTF],
+                                              axis: .vertical,
+                                              spacing: 10)
         
         self.view.addSubview(stackViewButtons)
         self.view.addSubview(stackViewTextFieldsForm)
@@ -107,57 +124,32 @@ class ProjectContactsController: UIViewController {
     // MARK: - Selectors
     
     @objc private func didTappedAddCell(){
-        
-
-        
         guard !contactFirstNameTF.text!.isEmpty, !contactLastNameTF.text!.isEmpty, !contactEmailTF.text!.isEmpty, !contactPasswordTF.text!.isEmpty else {
-            
-            
-            
-            if contactFirstNameTF.text!.isEmpty {
-                contactFirstNameTF.layer.borderWidth = 1
-                contactFirstNameTF.layer.borderColor = UIColor.red.cgColor
-            }else {
-                contactFirstNameTF.layer.borderWidth = 0
+            for textField in arrayTextFields {
+                if textField.text!.isEmpty {
+                    textField.layer.borderWidth = 1
+                    textField.layer.borderColor = UIColor.red.cgColor
+                }else {
+                    textField.layer.borderWidth = 0
+                }
             }
-            if contactLastNameTF.text!.isEmpty {
-                contactLastNameTF.layer.borderWidth = 1
-                contactLastNameTF.layer.borderColor = UIColor.red.cgColor
-            }else {
-                contactLastNameTF.layer.borderWidth = 0
-            }
-            if contactEmailTF.text!.isEmpty {
-                contactEmailTF.layer.borderWidth = 1
-                contactEmailTF.layer.borderColor = UIColor.red.cgColor
-            }else {
-                contactEmailTF.layer.borderWidth = 0
-            }
-            if contactPasswordTF.text!.isEmpty {
-                contactPasswordTF.layer.borderWidth = 1
-                contactPasswordTF.layer.borderColor = UIColor.red.cgColor
-            }else {
-                contactPasswordTF.layer.borderWidth = 0
-            }
-
             return
-            
         }
         
-        contactPasswordTF.layer.borderWidth = 0
-        contactEmailTF.layer.borderWidth = 0
-        contactLastNameTF.layer.borderWidth = 0
-        contactFirstNameTF.layer.borderWidth = 0
-        
+        for tf in arrayTextFields {
+            tf.layer.borderWidth = 0
+        }
+
         let contact = Contact(fistName: contactFirstNameTF.text!,
                 middleName: nil, lastName: contactLastNameTF.text!,
                 email: contactEmailTF.text!,
                 password: contactPasswordTF.text!)
         
         contacts.append(contact)
-        contactFirstNameTF.text = ""
-        contactLastNameTF.text = ""
-        contactEmailTF.text = ""
-        contactPasswordTF.text = ""
+
+        for tf in arrayTextFields {
+            tf.text = ""
+        }
         
         delContactButton.isEnabled = true
         tableViewContacts.reloadData()
@@ -205,19 +197,20 @@ extension ProjectContactsController : UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
-        
         cell.textLabel?.text = "\(contacts[indexPath.row]!.fistName) \(contacts[indexPath.row]!.lastName)"
-        
-        
-        
         return cell
     }
-    
-    
 }
 
 extension ProjectContactsController : UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print("DEBUG PRINT: didTap cell", indexPath)
+        print("DEBUG PRINT: didTap cell: ", indexPath)
+        tableView.deselectRow(at: indexPath, animated: true)
+        
+        let vc = ContactDetailController()
+        vc.firstName.text = "\(contacts[indexPath.row]!.fistName)"
+        vc.lastName.text = "\(contacts[indexPath.row]!.lastName)"
+        
+        self.navigationController?.pushViewController(vc, animated: true)
     }
 }

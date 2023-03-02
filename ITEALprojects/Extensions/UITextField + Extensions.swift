@@ -11,8 +11,8 @@ extension UITextField {
     convenience init(placeholder: String, keyBoardType: UIKeyboardType, autocapitalizationType: UITextAutocapitalizationType, isSecureTextEntry: Bool ){
         self.init()
         
-        self.keyboardType = keyboardType // TODO: - <#Message#>
-        self.attributedText = attributedText // TODO: - <#Message#>
+        self.keyboardType = keyboardType
+        self.attributedText = attributedText
         self.isSecureTextEntry = isSecureTextEntry
         
         self.textColor = .label
