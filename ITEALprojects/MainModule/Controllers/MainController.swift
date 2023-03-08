@@ -38,7 +38,7 @@ class MainController: UIViewController {
         self.view.addSubview(projectLesson1Button)
         projectLesson1Button.translatesAutoresizingMaskIntoConstraints = false
         
-            setConstraints()
+        setConstraints()
     }
     
     // MARK: - Selectors

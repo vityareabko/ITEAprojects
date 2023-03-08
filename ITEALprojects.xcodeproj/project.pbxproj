@@ -22,6 +22,7 @@
 		57DD8F3F29AFD7EA00B12D06 /* Roboto-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 57DD8F3C29AFD7EA00B12D06 /* Roboto-Bold.ttf */; };
 		57DD8F4029AFD7EA00B12D06 /* Roboto-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 57DD8F3D29AFD7EA00B12D06 /* Roboto-Regular.ttf */; };
 		57DD8F4329AFE41500B12D06 /* ProjectContactsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57DD8F4229AFE41500B12D06 /* ProjectContactsController.swift */; };
+		57F1A76829B7BF2B004680D8 /* CollectionViewControllePractice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57F1A76729B7BF2B004680D8 /* CollectionViewControllePractice.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -42,6 +43,7 @@
 		57DD8F3C29AFD7EA00B12D06 /* Roboto-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Bold.ttf"; sourceTree = "<group>"; };
 		57DD8F3D29AFD7EA00B12D06 /* Roboto-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Regular.ttf"; sourceTree = "<group>"; };
 		57DD8F4229AFE41500B12D06 /* ProjectContactsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectContactsController.swift; sourceTree = "<group>"; };
+		57F1A76729B7BF2B004680D8 /* CollectionViewControllePractice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewControllePractice.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -117,6 +119,7 @@
 			children = (
 				57DD8F4229AFE41500B12D06 /* ProjectContactsController.swift */,
 				573A7C7229B11360006FF7DE /* ContactDetailController.swift */,
+				57F1A76729B7BF2B004680D8 /* CollectionViewControllePractice.swift */,
 			);
 			path = Contollers;
 			sourceTree = "<group>";
@@ -273,6 +276,7 @@
 				57DD8F4329AFE41500B12D06 /* ProjectContactsController.swift in Sources */,
 				57DD8F3729AFCCB200B12D06 /* UIFont + Extenstion.swift in Sources */,
 				573A7C5A29B00DE3006FF7DE /* Contact.swift in Sources */,
+				57F1A76829B7BF2B004680D8 /* CollectionViewControllePractice.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -14,6 +14,7 @@ class ProjectContactsController: UIViewController {
     private var stackViewButtons = UIStackView()
     private var stackViewTextFieldsForm = UIStackView()
     private var contacts: [Contact?] = []
+    private var contactsDict: [String : Contact] = [:]
     
     // MARK: - UI Components
     
@@ -44,7 +45,6 @@ class ProjectContactsController: UIViewController {
         tableView.backgroundColor = .white
         tableView.separatorInset = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20);
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "Cell")
-        
         return tableView
     }()
     
@@ -65,13 +65,29 @@ class ProjectContactsController: UIViewController {
                                                 autocapitalizationType: .sentences,
                                                 isSecureTextEntry: true)
     
-    private var arrayTextFields: [UITextField] = []
+    private lazy var addTask: UIButton = {
+        let button = UIButton()
+        button.setTitle("Practice", for: .normal)
+        button.backgroundColor = .none
+        button.setTitleColor(.systemBlue, for: .normal)
+        button.titleLabel?.font = .systemFont(ofSize: 18, weight: .regular)
+        button.addTarget(self, action: #selector(didtapHomeWorkButton), for: .touchUpInside)
+        return button
+    }()
     
+    private var arrayTextFields: [UITextField] = []
+
     
     // MARK: - Lifecycle
    
     override func viewDidLoad() {
         super.viewDidLoad()
+       
+        let menuCustomBarButton = UIBarButtonItem(customView: addTask)
+        navigationItem.rightBarButtonItem = menuCustomBarButton
+        self.navigationController!.navigationBar.tintColor = .systemBlue
+
+        
 
         tableViewContacts.dataSource = self
         tableViewContacts.delegate = self
@@ -93,7 +109,7 @@ class ProjectContactsController: UIViewController {
         
         self.view.endEditing(false)
     }
-        
+    
     
     // MARK: - UI Setup
     
@@ -146,6 +162,8 @@ class ProjectContactsController: UIViewController {
                 password: contactPasswordTF.text!)
         
         contacts.append(contact)
+        let keyCollection = contactFirstNameTF.text!
+        contactsDict[keyCollection] = contact
 
         for tf in arrayTextFields {
             tf.text = ""
@@ -161,6 +179,13 @@ class ProjectContactsController: UIViewController {
             tableViewContacts.reloadData()
             if contacts.isEmpty { delContactButton.isEnabled = false }
         }
+    }
+    
+    @objc private func didtapHomeWorkButton(){
+        let vc = CollectionViewControllePractice()
+        vc.dict = contactsDict 
+        
+        navigationController?.pushViewController(vc, animated: true)
     }
    
 }
